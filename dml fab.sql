@@ -1,0 +1,9 @@
+call datosfabricantes("Asus");
+call datosfabricantes("Lenovo");
+call datosfabricantes("Hewlett-Packard");
+call datosfabricantes("Samsung");
+call datosfabricantes("Seagate");
+call datosfabricantes("Crucial");
+call datosfabricantes("Gigabyte");
+call datosfabricantes("Huawei");
+call datosfabricantes("Xiaomi");
