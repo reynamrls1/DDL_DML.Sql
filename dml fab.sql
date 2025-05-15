@@ -62,7 +62,10 @@ select distinct codigo
 from producto;
 
 /*12. listar el identificador de los fabricantes que tienen productos y eliminar los identificadores que aparecen repetidos en la tabla de productos*/
-
+select codigo_fabricante
+from producto
+group by codigo_fabricante
+order by MIN(codigo);
 
 /*13. Lista los nombres de los fabricantes ordenados de forma ascendente.*/
 select nombre
@@ -263,4 +266,126 @@ order by p.precio desc, p.nombre asc;
 /*13. Fabricantes que tienen productos*/
 select distinct f.codigo, f.nombre
 from producto as p, fabricante as f
-where p.codigo_fabricante = f.codigo;
+where p.codigo_fabricante = f.codigo; 
+
+/*1.1.5. Connsultas multitablas (composicion externa)*/ 
+/* 1. devuelve un listado de TODOS LOS FABRICANTES que existen en la base de datos, junto con los productos que tienen cada uno de ellos. el listado debera mostrar tambien aquellos fabricantes que no tienen productos asociados */
+
+select f.nombre as fabricante, p.nombre as producto, p.precio
+from fabricante f
+left join producto p on f.codigo = p.codigo_fabricante
+order by f.nombre;
+
+/*2. devuelve un listado donde solo aparezcan aquellos fabricantes que no tienen ningun producto asociado*/ 
+select f.nombre as fabricante
+from fabricante f
+left join producto p on f.codigo = p.codigo_fabricante
+where p.codigo is null;
+
+/*3.  ¿Pueden existir productos que no esten  relacionados con un fabricante? justifique su respiesta*/ 
+
+/*1.1.6 Consultas resumen*/ 
+/* 1. Calcula el numero total de productos que hay en la tabla productos. */ 
+select COUNT(*) as total_productos
+from producto;
+
+/* 2. Calcula el numero total de fabricante que hay en la tabla de fabricante. */ 
+select COUNT(*) as Total_fabricante
+from fabricante;
+
+ /*3. Calcula el numero de valores distintos de identificador de fabricante que aparecen en la tabla producto */ 
+ select COUNT(distinct codigo_fabricante) as fabricantes_productos
+from producto;
+
+/*4. calcula la media del precio de todos los productos */ 
+select avg(precio) as media_precio
+from producto;
+
+/*5. calcula el precio mas barato de todos los productos*/ 
+select MIN(precio) as precio_mas_barato
+from producto;
+
+/*6. calcular el precio mas caro de todos los productos */ 
+select MAX(precio) as precio_mas_alto
+from producto;
+
+/*7. Lista el nombre y el precio del producto mas barato  */ 
+select nombre, precio
+from producto
+where precio = (select MIN(precio) from producto);
+
+/*8. Lista el nombre y el precio del producto mas caro  */ 
+select nombre, precio
+from producto
+where precio = (select max(precio) from producto);
+
+/*9. Calcula la suma de los precios de todos los productos */ 
+select SUM(precio) as suma_total
+from producto;
+
+/*10. Calcula el numero de productos que tienen el fabricante de Asus*/ 
+select count(*) as productos_asus
+from producto
+where codigo_fabricante = (
+    select codigo from fabricante
+    where nombre = 'Asus'
+);
+
+/*11. Calcula la media del precio de todos los productos del fabricante Asus  */
+select avg(precio) as media_asus
+from producto
+where codigo_fabricante = (
+    select codigo from fabricante
+    where nombre = 'Asus'
+);
+
+/*12. Calcula el precio mas barato de todos los productos del fabricante Asus */
+select min(precio) as precio_barato_asus
+from producto
+where codigo_fabricante = (
+    select codigo from fabricante
+    where nombre = 'Asus'
+);
+
+/*13. Calcula el precio mas Caro de todos los productos del fabricante Asus  */  
+select MAX(precio) as precio_maximo_asus
+from producto
+where codigo_fabricante = (
+    select codigo from fabricante
+    where nombre = 'Asus'
+);
+
+/*14. Calcula la suma de todos los productos del fabricante Asus */
+select SUM(precio) as suma_todos_asus
+from producto
+where codigo_fabricante = (
+    select codigo from fabricante
+    where nombre = 'Asus'
+);
+
+/*15. Muestra el precio maximo, minimo, precio medio y el numero total de productos que tienen la fabrica Crucial */
+select max(precio) as precio_maximo,
+min(precio) as precio_minimo,
+avg(precio) as precio_medio,
+count(*) as total_productos
+from producto
+where codigo_fabricante = (
+select codigo from fabricante
+where nombre = 'Crucial'
+);
+
+/*16. Muestra el numero tyotal del productos que tiene cada uno de los fabricantes, el listado tambien debe incuir los fabricantes que no tienen ningun producto. El resultado mostrara dos columnas, una con el nombre del fabricante y la otra con el numero de productos que tiene. ordene el resultado descendente´por el numero del producto .*/
+
+/*17. Muestra el precio maximo, precio minimo y precio medio de los productos de cada uno de los fabricantes. el resultado mostrara el nombre del fabricante junto con los datos que se solicitan*/
+
+/*18. Muestra el precio maximo, precio minimo y precio medio y el numero total de los productos de los fabricantes que tienen un precio medio superior a 200E. noo es necesario mostrar el nombre del fabricante, con el identificador del fabricante es suficiente.*/
+
+/*19. Muestra el nombre de cada fabricante, junto con el precio maximo precio minimo y precio medio y numero total  de los productos de los fabricantes que tienen un precio medio superior a 200e. es necesario mostrar el nombre del fabricante*/
+
+/*20. Calcula el numero de producto que tiene un precio mayor o igual a 180 e  */
+
+/*21. Calcula el numero de productos que tiene cada fabricante con un precio mayor  */
+
+
+
+ 
